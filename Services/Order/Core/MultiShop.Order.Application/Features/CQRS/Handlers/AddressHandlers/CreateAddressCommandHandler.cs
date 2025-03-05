@@ -4,17 +4,11 @@ using MultiShop.Order.Domain.Entities;
 
 namespace MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 
-public class CreateAddressCommandHandler
+public class CreateAddressCommandHandler(IRepository<Address> repo)
 {
-    private readonly IRepository<Address> _repository;
-
-    public CreateAddressCommandHandler(IRepository<Address> repository)
+    public async Task Handle(CreateAddressCommand createAddressCommand)
     {
-        _repository = repository;
-    }
-    public async Task Handle(CreateAddressCommand createAddressCommand, CancellationToken cancellationToken)
-    {
-        await _repository.CreateAsync(new Address
+        await repo.CreateAsync(new Address
         {
             City = createAddressCommand.City,
             Detail = createAddressCommand.Detail,

@@ -5,17 +5,11 @@ using MultiShop.Order.Domain.Entities;
 
 namespace MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 
-public class GetAddressByIdQueryHandler
+public class GetAddressByIdQueryHandler(IRepository<Address> repo)
 {
-    private readonly IRepository<Address> _repository;
-
-    public GetAddressByIdQueryHandler(IRepository<Address> repository)
-    {
-        _repository = repository;
-    }
     public async Task<GetAddressByIdQueryResult> Handle(GetAddressByIdQuery query)
     {
-        var values = await _repository.GetByIdAsync(query.Id);
+        var values = await repo.GetByIdAsync(query.Id);
         return new GetAddressByIdQueryResult
         {
             AddressId = values.AddressId,

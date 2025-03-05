@@ -4,18 +4,12 @@ using MultiShop.Order.Domain.Entities;
 
 namespace MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 
-public class RemoveAddressCommandHandler
+public class RemoveAddressCommandHandler(IRepository<Address> repo)
 {
-    private readonly IRepository<Address> _repository;
-
-    public RemoveAddressCommandHandler(IRepository<Address> repository)
-    {
-        _repository = repository;
-    }
     public async Task Handle(RemoveAddressCommand command)
     {
-        var value = await _repository.GetByIdAsync(command.Id);
-        await _repository.DeleteAsync(value);
+        var value = await repo.GetByIdAsync(command.Id);
+        await repo.DeleteAsync(value);
     }
 }
 
